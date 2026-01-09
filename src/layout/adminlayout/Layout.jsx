@@ -1,6 +1,7 @@
 // src/components/Layout.jsx
 import Navbar from "../../common/adminCommon/Navbar";
 import Sidebar from "../../common/adminCommon/Sidebar";
+import ScrollToTop from "../../components/ScrollToTop";
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -22,6 +23,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
+      <ScrollToTop />
       
       {/* Top Navbar */}
       <Navbar />

@@ -5,6 +5,17 @@ import { Link } from "react-router-dom";
 import { HiShoppingCart, HiEye, HiCheckCircle, HiSearch, HiFilter, HiStar, HiHeart, HiViewGrid, HiViewList } from "react-icons/hi";
 import { MdImage } from "react-icons/md";
 
+// Indian number system formatter
+const formatIndianNumber = (num) => {
+  const numStr = Math.floor(num).toString();
+  const lastThree = numStr.substring(numStr.length - 3);
+  const otherNumbers = numStr.substring(0, numStr.length - 3);
+  if (otherNumbers !== '') {
+    return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+  }
+  return lastThree;
+};
+
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -126,14 +137,14 @@ export default function ProductList() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Animation */}
-      <div className="bg-gradient-to-r from-primary-600 via-primary-700 to-indigo-700 text-white py-16 px-6 relative overflow-hidden">
+      <div className="bg-blue-400 text-black py-16 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-10"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-white opacity-5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
         
         <div className="max-w-7xl mx-auto relative z-10 animate-fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">Discover Amazing Products</h1>
-          <p className="text-xl opacity-90 mb-6">Handpicked collections just for you</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Discover Amazing Products</h1>
+          <p className="text-lg opacity-90 mb-6">Handpicked collections just for you</p>
           <div className="flex flex-wrap gap-4">
             <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full flex items-center gap-2">
               <HiCheckCircle className="text-2xl" />
@@ -244,7 +255,7 @@ export default function ProductList() {
               <div className="bg-gradient-to-br from-gray-100 to-gray-200 w-32 h-32 rounded-full mx-auto mb-6 flex items-center justify-center">
                 <HiSearch className="text-6xl text-gray-400" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-700 mb-2">No Products Found</h3>
+              <h3 className="text-xl font-bold text-gray-700 mb-2">No Products Found</h3>
               <p className="text-gray-500 mb-6">We couldn't find any products matching your search criteria</p>
               <button
                 onClick={() => {
@@ -328,7 +339,7 @@ export default function ProductList() {
                     </div>
 
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="font-bold text-lg mb-1 hover:text-primary-600 transition-colors line-clamp-2 min-h-[3.5rem]">
+                      <h3 className="font-bold text-base mb-1 hover:text-primary-600 transition-colors line-clamp-2 min-h-[3.5rem]">
                         {product.name}
                       </h3>
                     </Link>
@@ -341,8 +352,8 @@ export default function ProductList() {
                     {/* Price and Stock */}
                     <div className="flex items-end justify-between mb-4">
                       <div>
-                        <div className="text-3xl font-bold text-primary-600">₹{product.price}</div>
-                        <div className="text-xs text-gray-500 line-through">₹{(product.price * 1.3).toFixed(0)}</div>
+                        <div className="text-2xl font-bold text-primary-600">₹{formatIndianNumber(product.price)}</div>
+                        <div className="text-xs text-gray-500 line-through">₹{formatIndianNumber(product.price * 1.3)}</div>
                       </div>
                       <div className={`text-xs font-bold px-3 py-1.5 rounded-full ${
                         product.stock > 10 ? 'bg-green-100 text-green-700' : 
@@ -421,7 +432,7 @@ export default function ProductList() {
                         </div>
 
                         <Link to={`/product/${product.id}`}>
-                          <h3 className="font-bold text-2xl mb-2 hover:text-primary-600 transition-colors">
+                          <h3 className="font-bold text-xl mb-2 hover:text-primary-600 transition-colors">
                             {product.name}
                           </h3>
                         </Link>
@@ -436,8 +447,8 @@ export default function ProductList() {
                       <div className="flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-6">
                           <div>
-                            <div className="text-4xl font-bold text-primary-600">₹{product.price}</div>
-                            <div className="text-sm text-gray-500 line-through">₹{(product.price * 1.3).toFixed(0)}</div>
+                            <div className="text-3xl font-bold text-primary-600">₹{formatIndianNumber(product.price)}</div>
+                            <div className="text-sm text-gray-500 line-through">₹{formatIndianNumber(product.price * 1.3)}</div>
                           </div>
                           <div className={`text-sm font-bold px-4 py-2 rounded-full ${
                             product.stock > 10 ? 'bg-green-100 text-green-700' : 

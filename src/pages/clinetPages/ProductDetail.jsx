@@ -5,6 +5,17 @@ import { useCart } from "../../context/CartContext";
 import { HiArrowLeft, HiShoppingCart, HiCheckCircle, HiPlus, HiMinus, HiStar, HiTruck, HiShieldCheck, HiRefresh, HiHeart, HiShare } from "react-icons/hi";
 import { MdImage, MdVerified } from "react-icons/md";
 
+// Indian number system formatter
+const formatIndianNumber = (num) => {
+  const numStr = Math.floor(num).toString();
+  const lastThree = numStr.substring(numStr.length - 3);
+  const otherNumbers = numStr.substring(0, numStr.length - 3);
+  if (otherNumbers !== '') {
+    return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+  }
+  return lastThree;
+};
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -206,7 +217,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
                 
-                <h1 className="text-4xl font-bold text-gray-900 mb-4 leading-tight">{product.name}</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-4 leading-tight">{product.name}</h1>
                 
                 {/* Rating */}
                 <div className="flex items-center gap-4 mb-6 pb-6 border-b">
@@ -216,7 +227,7 @@ export default function ProductDetail() {
                     ))}
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-lg font-bold text-gray-900">4.0</span>
+                    <span className="text-base font-bold text-gray-900">4.0</span>
                     <span className="text-gray-400">|</span>
                     <span className="text-sm text-gray-600">328 reviews</span>
                     <span className="text-gray-400">|</span>
@@ -227,10 +238,10 @@ export default function ProductDetail() {
                 {/* Price */}
                 <div className="bg-gradient-to-r from-primary-50 to-indigo-50 rounded-2xl p-6 mb-6">
                   <div className="flex items-center gap-4 mb-2">
-                    <div className="text-5xl font-bold text-primary-600">₹{product.price}</div>
+                    <div className="text-4xl font-bold text-primary-600">₹{formatIndianNumber(product.price)}</div>
                     <div>
-                      <div className="text-xl text-gray-500 line-through">₹{(product.price * 1.3).toFixed(0)}</div>
-                      <div className="text-green-600 font-bold text-lg">Save 23%</div>
+                      <div className="text-lg text-gray-500 line-through">₹{formatIndianNumber(product.price * 1.3)}</div>
+                      <div className="text-green-600 font-bold text-base">Save 23%</div>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600">Inclusive of all taxes • Free Shipping</p>
@@ -295,7 +306,7 @@ export default function ProductDetail() {
               {/* Quantity Selector */}
               {product.stock > 0 && (
                 <div>
-                  <label className="block font-bold text-gray-900 mb-3 text-lg">Select Quantity</label>
+                  <label className="block font-bold text-gray-900 mb-3 text-base">Select Quantity</label>
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -336,7 +347,7 @@ export default function ProductDetail() {
                 <button
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                  className={`w-full py-5 px-6 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-xl ${
+                  className={`w-full py-5 px-6 rounded-2xl font-bold text-base flex items-center justify-center gap-3 transition-all shadow-xl ${
                     product.stock === 0
                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                       : addedToCart
@@ -417,8 +428,8 @@ export default function ProductDetail() {
           <div className="p-8">
             {activeTab === "description" && (
               <div className="space-y-4 animate-fade-in">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Product Description</h3>
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Product Description</h3>
+                <p className="text-gray-700 leading-relaxed text-base">
                   {product.description || "Experience the perfect blend of quality and style with this amazing product. Crafted with care and attention to detail, it's designed to exceed your expectations and deliver outstanding performance."}
                 </p>
                 <div className="grid md:grid-cols-2 gap-4 mt-6">
@@ -455,7 +466,7 @@ export default function ProductDetail() {
             {activeTab === "reviews" && (
               <div className="space-y-6 animate-fade-in">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900">Customer Reviews</h3>
+                  <h3 className="text-xl font-bold text-gray-900">Customer Reviews</h3>
                   <button className="bg-primary-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors">
                     Write a Review
                   </button>
@@ -464,7 +475,7 @@ export default function ProductDetail() {
                 <div className="bg-primary-50 rounded-2xl p-6 mb-6">
                   <div className="flex items-center gap-6">
                     <div className="text-center">
-                      <div className="text-5xl font-bold text-primary-600">4.0</div>
+                      <div className="text-4xl font-bold text-primary-600">4.0</div>
                       <div className="flex items-center gap-1 mt-2">
                         {[...Array(5)].map((_, i) => (
                           <HiStar key={i} className={`text-xl ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
@@ -509,20 +520,20 @@ export default function ProductDetail() {
 
             {activeTab === "shipping" && (
               <div className="space-y-6 animate-fade-in">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Shipping Information</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Shipping Information</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-gradient-to-br from-primary-50 to-blue-50 p-6 rounded-2xl">
                     <HiTruck className="text-4xl text-primary-600 mb-3" />
                     <h4 className="font-bold text-lg mb-2">Standard Delivery</h4>
                     <p className="text-gray-700 mb-2">Delivered in 5-7 business days</p>
                     <p className="text-2xl font-bold text-primary-600">FREE</p>
-                    <p className="text-sm text-gray-600">On orders above ₹999</p>
+                    <p className="text-sm text-gray-600">On orders above ₹{formatIndianNumber(999)}</p>
                   </div>
                   <div className="bg-gradient-to-br from-orange-50 to-yellow-50 p-6 rounded-2xl">
                     <HiTruck className="text-4xl text-orange-600 mb-3" />
                     <h4 className="font-bold text-lg mb-2">Express Delivery</h4>
                     <p className="text-gray-700 mb-2">Delivered in 2-3 business days</p>
-                    <p className="text-2xl font-bold text-orange-600">₹99</p>
+                    <p className="text-2xl font-bold text-orange-600">₹{formatIndianNumber(99)}</p>
                     <p className="text-sm text-gray-600">Get it faster!</p>
                   </div>
                 </div>

@@ -5,6 +5,17 @@ import { Link } from "react-router-dom";
 import { HiShoppingBag, HiShoppingCart, HiTruck, HiClock, HiCheckCircle, HiGift, HiTrendingUp, HiHeart } from "react-icons/hi";
 import { MdImage } from "react-icons/md";
 
+// Indian number system formatter
+const formatIndianNumber = (num) => {
+  const numStr = Math.floor(num).toString();
+  const lastThree = numStr.substring(numStr.length - 3);
+  const otherNumbers = numStr.substring(0, numStr.length - 3);
+  if (otherNumbers !== '') {
+    return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+  }
+  return lastThree;
+};
+
 export default function Dashboard() {
   const { session, signOut } = UserAuth();
   const [orders, setOrders] = useState([]);
@@ -103,15 +114,15 @@ export default function Dashboard() {
                   <HiShoppingBag className="text-5xl" />
                 </div>
                 <div>
-                  <h1 className="text-4xl md:text-5xl font-bold mb-2">Welcome Back!</h1>
-                  <p className="text-xl text-primary-100">
+                  <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome Back!</h1>
+                  <p className="text-lg text-primary-100">
                     {session?.user?.email || "Valued Customer"}
                   </p>
                 </div>
               </div>
               <div className="bg-white/20 backdrop-blur-sm px-8 py-4 rounded-2xl text-center">
                 <p className="text-sm text-primary-100 mb-1">Member Since</p>
-                <p className="text-2xl font-bold">
+                <p className="text-xl font-bold">
                   {new Date(session?.user?.created_at || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                 </p>
               </div>
@@ -125,7 +136,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm font-semibold mb-1">Total Orders</p>
-                <p className="text-4xl font-bold text-blue-600">{stats.totalOrders}</p>
+                <p className="text-3xl font-bold text-blue-600">{formatIndianNumber(stats.totalOrders)}</p>
               </div>
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
                 <HiShoppingCart className="text-3xl text-blue-600" />
@@ -137,7 +148,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm font-semibold mb-1">Total Spent</p>
-                <p className="text-4xl font-bold text-green-600">₹{stats.totalSpent.toFixed(0)}</p>
+                <p className="text-3xl font-bold text-green-600">₹{formatIndianNumber(stats.totalSpent)}</p>
               </div>
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
                 <HiTrendingUp className="text-3xl text-green-600" />
@@ -149,7 +160,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm font-semibold mb-1">Completed</p>
-                <p className="text-4xl font-bold text-purple-600">{stats.completedOrders}</p>
+                <p className="text-3xl font-bold text-purple-600">{formatIndianNumber(stats.completedOrders)}</p>
               </div>
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center">
                 <HiCheckCircle className="text-3xl text-purple-600" />
@@ -161,7 +172,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm font-semibold mb-1">Pending</p>
-                <p className="text-4xl font-bold text-orange-600">{stats.pendingOrders}</p>
+                <p className="text-3xl font-bold text-orange-600">{formatIndianNumber(stats.pendingOrders)}</p>
               </div>
               <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center">
                 <HiClock className="text-3xl text-orange-600" />
@@ -181,11 +192,11 @@ export default function Dashboard() {
                 <HiShoppingBag className="text-4xl" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Shop Now</h3>
+                <h3 className="text-xl font-bold">Shop Now</h3>
                 <p className="text-primary-100 text-sm">Explore latest products</p>
               </div>
             </div>
-            <p className="text-white/80">Discover amazing deals →</p>
+            <p className="text-white/80 text-sm">Discover amazing deals →</p>
           </Link>
 
           <Link
@@ -197,11 +208,11 @@ export default function Dashboard() {
                 <HiShoppingCart className="text-4xl" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold">My Cart</h3>
+                <h3 className="text-xl font-bold">My Cart</h3>
                 <p className="text-green-100 text-sm">View your selections</p>
               </div>
             </div>
-            <p className="text-white/80">Ready to checkout →</p>
+            <p className="text-white/80 text-sm">Ready to checkout →</p>
           </Link>
 
           <div className="bg-gradient-to-br from-orange-500 to-red-600 text-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-2 group cursor-pointer">
@@ -210,18 +221,18 @@ export default function Dashboard() {
                 <HiGift className="text-4xl" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Rewards</h3>
+                <h3 className="text-xl font-bold">Rewards</h3>
                 <p className="text-orange-100 text-sm">Exclusive offers</p>
               </div>
             </div>
-            <p className="text-white/80">Check your rewards →</p>
+            <p className="text-white/80 text-sm">Check your rewards →</p>
           </div>
         </div>
 
         {/* Recent Orders Section */}
         <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-gray-900">Recent Orders</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Recent Orders</h2>
             {orders.length > 3 && (
               <Link to="/orders" className="text-primary-600 hover:text-primary-700 font-semibold flex items-center gap-2">
                 View All
@@ -235,8 +246,8 @@ export default function Dashboard() {
               <div className="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full mx-auto mb-6 flex items-center justify-center">
                 <HiShoppingCart className="text-6xl text-gray-300" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-700 mb-3">No Orders Yet</h3>
-              <p className="text-gray-500 text-lg mb-8">Start exploring our amazing products</p>
+              <h3 className="text-xl font-bold text-gray-700 mb-3">No Orders Yet</h3>
+              <p className="text-gray-500 text-base mb-8">Start exploring our amazing products</p>
               <Link
                 to="/productlist"
                 className="inline-flex items-center gap-2 bg-primary-600 text-white px-8 py-4 rounded-xl hover:bg-primary-700 font-bold transition-all shadow-lg hover:shadow-xl"
@@ -257,7 +268,7 @@ export default function Dashboard() {
                     <div>
                       <div className="flex items-center gap-3 mb-2">
                         <div>
-                          <p className="font-bold text-xl text-gray-900">Order #{order.id.substring(0, 8)}</p>
+                          <p className="font-bold text-lg text-gray-900">Order #{order.id.substring(0, 8)}</p>
                           {order.order_items && order.order_items.length > 0 && (
                             <p className="text-sm text-gray-600 mt-1">
                               {order.order_items[0]?.products?.name || "Product"}
@@ -298,8 +309,8 @@ export default function Dashboard() {
                     </div>
                     <div className="text-left lg:text-right">
                       <p className="text-sm text-gray-500 mb-1 font-semibold">Order Total</p>
-                      <p className="text-4xl font-bold text-primary-600">
-                        ₹{order.total_amount.toFixed(2)}
+                      <p className="text-2xl font-bold text-primary-600">
+                        ₹{formatIndianNumber(order.total_amount)}
                       </p>
                     </div>
                   </div>
@@ -328,10 +339,10 @@ export default function Dashboard() {
                               {item.products?.name || "Product"}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {item.quantity} × ₹{item.price}
+                              {item.quantity} × ₹{formatIndianNumber(item.price)}
                             </p>
                             <p className="text-sm font-bold text-primary-600 mt-1">
-                              ₹{(item.quantity * item.price).toFixed(2)}
+                              ₹{formatIndianNumber(item.quantity * item.price)}
                             </p>
                           </div>
                         </div>
@@ -364,8 +375,8 @@ export default function Dashboard() {
                 <HiHeart className="text-4xl" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold">Just For You</h2>
-                <p className="text-indigo-100">Personalized recommendations based on your shopping history</p>
+                <h2 className="text-2xl font-bold">Just For You</h2>
+                <p className="text-indigo-100 text-sm">Personalized recommendations based on your shopping history</p>
               </div>
             </div>
             <Link

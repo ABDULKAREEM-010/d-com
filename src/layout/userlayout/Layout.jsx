@@ -1,6 +1,7 @@
 import { Outlet, useLocation, Navigate } from "react-router-dom";
 import UserNavbar from "../../common/useCommon/Navbar";
 import Footer from "../../common/useCommon/Footer";
+import ScrollToTop from "../../components/ScrollToTop";
 import { useEffect, useState } from "react";
 import { UserAuth } from "../../context/AuthContext";
 import { supabase } from "../../supabaseClient";
@@ -66,6 +67,7 @@ export default function UserLayout() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      <ScrollToTop />
       <UserNavbar />
       <main className="flex-grow">
         <div className={transitionStage}>
